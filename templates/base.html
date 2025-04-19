@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalForge Weekly Deals</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .deal {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .deal h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .deal-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .tag {
+            background: #e9ecef;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔥 SignalForge Weekly Deals</h1>
+        <p>Your curated selection of the best deals this week</p>
+    </div>
+
+    {% for deal in deals %}
+    <div class="deal">
+        <h2>{{ deal.title }}</h2>
+        <div class="deal-meta">
+            {% if deal.date %}
+            <span>Posted: {{ deal.date }}</span>
+            {% endif %}
+        </div>
+        <div class="content">
+            {{ deal.content | safe }}
+        </div>
+        {% if deal.tags %}
+        <div class="tags">
+            {% for tag in deal.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <div class="footer">
+        <p>© {{ now.year }} SignalForge. All rights reserved.</p>
+        <p><a href="[UNSUBSCRIBE_URL]">Unsubscribe</a></p>
+    </div>
+</body>
+</html> 

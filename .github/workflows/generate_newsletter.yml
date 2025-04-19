@@ -1,0 +1,42 @@
+name: Generate Weekly Newsletter
+on:
+  schedule:
+    - cron: '0 12 * * 5'  # Every Friday at 12:00 UTC
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    env:
+      SEND_EMAIL: true
+      EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+      SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      EMAIL_SUBJECT: "🔥 Weekly Top Affiliate Deals"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true  # Required to access signalforge-site content
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate newsletter
+        run: python generate_newsletter.py
+
+      - name: Upload newsletter artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: newsletter
+          path: output/
+          retention-days: 7 
