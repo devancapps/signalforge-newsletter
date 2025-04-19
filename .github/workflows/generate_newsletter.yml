@@ -8,13 +8,13 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     env:
-      SEND_EMAIL: true
+      SEND_EMAIL: false  # Set to false for testing
+      EMAIL_SUBJECT: "🔥 Weekly Top Affiliate Deals"
+      SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
       EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
       EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
-      SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
-      SMTP_PORT: ${{ secrets.SMTP_PORT }}
-      EMAIL_SUBJECT: "🔥 Weekly Top Affiliate Deals"
 
     steps:
       - uses: actions/checkout@v3
@@ -31,8 +31,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Debug environment
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Directory contents:"
+          ls -la
+          echo "Posts directory:"
+          ls -la ../signalforge-site/posts || true
+
       - name: Generate newsletter
         run: python generate_newsletter.py
+
+      - name: List output files
+        run: |
+          echo "Output directory contents:"
+          ls -la output/
 
       - name: Upload newsletter artifact
         uses: actions/upload-artifact@v4
