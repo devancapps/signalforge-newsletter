@@ -6,7 +6,8 @@ import datetime
 
 def main():
     # Load and process posts
-    posts = load_posts("../signalforge-site/posts")
+    posts_dir = os.getenv("POSTS_DIR", "test/posts")  # Use test/posts by default
+    posts = load_posts(posts_dir)
     ranked = score_and_select_top(posts)
 
     # Render HTML

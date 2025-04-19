@@ -15,11 +15,10 @@ jobs:
       EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
       EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+      POSTS_DIR: "test/posts"  # Use test posts directory
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: true  # Required to access signalforge-site content
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -37,7 +36,7 @@ jobs:
           echo "Directory contents:"
           ls -la
           echo "Posts directory:"
-          ls -la ../signalforge-site/posts || true
+          ls -la test/posts
 
       - name: Generate newsletter
         run: python generate_newsletter.py
