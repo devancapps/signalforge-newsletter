@@ -35,7 +35,7 @@ jobs:
         run: python generate_newsletter.py
 
       - name: Upload newsletter artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: newsletter
           path: output/
