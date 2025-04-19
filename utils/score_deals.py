@@ -36,10 +36,14 @@ def score_and_select_top(posts, top_n=5):
         date = post.get('date')
         if date:
             try:
-                post_date = datetime.strptime(date, "%Y-%m-%d")
-                delta = (datetime.now() - post_date).days
+                # Handle both string and datetime.date objects
+                if isinstance(date, str):
+                    post_date = datetime.strptime(date, "%Y-%m-%d").date()
+                else:
+                    post_date = date
+                delta = (datetime.now().date() - post_date).days
                 score += max(0, 7 - delta)  # More points for recent posts
-            except ValueError:
+            except (ValueError, AttributeError):
                 pass
                 
         return score

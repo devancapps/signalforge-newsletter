@@ -1,4 +1,4 @@
-import frontmatter
+import frontmatter as fm
 import glob
 import os
 
@@ -9,7 +9,7 @@ def load_posts(base_path):
     
     for path in files:
         try:
-            post = frontmatter.load(path)
+            post = fm.load(path)
             # Add the file path to the post metadata
             post['path'] = path
             posts.append(post)
